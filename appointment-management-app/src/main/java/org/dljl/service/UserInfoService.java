@@ -1,5 +1,6 @@
 package org.dljl.service;
 
+import java.util.Optional;
 import org.dljl.entity.UserInfo;
 import org.dljl.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserInfoService implements UserDetailsService {
@@ -22,7 +21,8 @@ public class UserInfoService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<UserInfo> userDetail = repository.findByEmail(username); // Assuming 'email' is used as username
+    Optional<UserInfo> userDetail = repository.findByEmail(
+        username); // Assuming 'email' is used as username
 
     // Converting UserInfo to UserDetails
     return userDetail.map(UserInfoDetails::new)
