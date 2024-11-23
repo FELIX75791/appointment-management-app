@@ -30,6 +30,15 @@ public class UserInfoService implements UserDetailsService {
   }
 
   public String addUser(UserInfo userInfo) {
+
+    if (repository.existsByName(userInfo.getName())) {
+      throw new IllegalArgumentException("Name already exists: " + userInfo.getName());
+    }
+
+    if (repository.existsByEmail(userInfo.getEmail())) {
+      throw new IllegalArgumentException("Email already exists: " + userInfo.getEmail());
+    }
+
     // Generate a fallback ID if not provided
     if (userInfo.getId() == null) {
       userInfo.setId(generateNewId());
