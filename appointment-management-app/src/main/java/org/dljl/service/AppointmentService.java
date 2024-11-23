@@ -4,10 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
-import org.dljl.entity.Appointment;
-import org.dljl.entity.CreateAppointmentDto;
-import org.dljl.entity.CreateBlockDto;
-import org.dljl.entity.CreateRecurringBlockInOneYearDto;
+
+import org.dljl.entity.*;
 import org.dljl.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,8 +30,13 @@ public class AppointmentService {
   }
 
   // Create Recurring Block
-  public String createRecurringBlock(CreateRecurringBlockInOneYearDto dto) {
+  public String createRecurringBlockInOneYear(CreateRecurringBlockInOneYearDto dto) {
     return apiClient.createRecurringBlockInOneYear(dto);
+  }
+
+  // Create Recurring Block
+  public String createRecurringBlock(CreateRecurringBlockDto dto) {
+    return apiClient.createRecurringBlock(dto);
   }
 
   // Get Available Slots
@@ -56,5 +59,25 @@ public class AppointmentService {
 
     // Call the external API client with the resolved providerId and userId
     return apiClient.getAppointmentHistory(providerId, userId);
+  }
+
+  public Appointment updateAppointment(UpdateAppointmentDto dto) {
+    return apiClient.updateAppointment(dto);
+  }
+
+  public String cancelAppointment(Long id) {
+    return apiClient.cancelAppointment(id);
+  }
+
+  public Appointment getAppointmentById(Long id) {
+    return apiClient.getAppointmentById(id);
+  }
+
+  public List<Appointment> getProviderAppointments(Long providerId) {
+    return apiClient.getProviderAppointments(providerId);
+  }
+
+  public String deleteBlock(Long id) {
+    return apiClient.deleteBlock(id);
   }
 }

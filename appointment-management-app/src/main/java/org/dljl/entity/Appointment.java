@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Appointment {
 
-  private Long id;
+  private Long appointmentId;
   private Long providerId;
   private Long userId;
   private LocalDateTime startDateTime;
