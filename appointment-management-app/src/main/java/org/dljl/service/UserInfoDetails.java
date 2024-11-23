@@ -1,13 +1,12 @@
 package org.dljl.service;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.dljl.entity.UserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserInfoDetails implements UserDetails {
 
@@ -41,21 +40,21 @@ public class UserInfoDetails implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return true; // Implement your logic if you need this
+    return true; // Trivial, our business logic does not concern this.
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return true; // Implement your logic if you need this
+    return true; // Trivial, our business logic does not concern this.
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return true; // Implement your logic if you need this
+    return true; // Trivial, our business logic does not concern this.
   }
 
   @Override
   public boolean isEnabled() {
-    return true; // Implement your logic if you need this
+    return true; // Trivial, our business logic does not concern this.
   }
 }
