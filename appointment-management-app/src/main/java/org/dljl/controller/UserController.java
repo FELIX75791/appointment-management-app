@@ -5,6 +5,7 @@ import org.dljl.entity.UserInfo;
 import org.dljl.service.JwtService;
 import org.dljl.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,8 +36,13 @@ public class UserController {
   }
 
   @PostMapping("/addNewUser")
-  public String addNewUser(@RequestBody UserInfo userInfo) {
-    return service.addUser(userInfo);
+  public ResponseEntity<String> addNewUser(@RequestBody UserInfo userInfo) {
+    try {
+      String response = service.addUser(userInfo);
+      return ResponseEntity.ok(response);
+    } catch (IllegalArgumentException ex) {
+      return ResponseEntity.badRequest().body("Error: " + ex.getMessage());
+    }
   }
 
   @GetMapping("/user/userProfile")
