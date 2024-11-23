@@ -35,12 +35,16 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
-        .authorizeHttpRequests(
-            auth -> auth.requestMatchers("/auth/welcome", "/auth/addNewUser", "/auth/generateToken")
-                .permitAll().requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
-                .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN").anyRequest()
-                .authenticated() // Protect all other endpoints
-        ).sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .authorizeHttpRequests(auth -> auth
+            // Public endpoints
+            .requestMatchers("/auth/welcome", "/auth/addNewUser", "/auth/generateToken").permitAll()
+            // ROLE_ADMIN endpoints
+            .requestMatchers("/appointments/createAppointment", "/appointments/createBlock",
+                "/appointments/createRecurringBlockInOneYear", "/appointments/update",
+                "/appointments/cancel/**").hasAuthority("ROLE_ADMIN")
+            // Default: All other requests must be authenticated
+            .anyRequest().authenticated())
+        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             // No sessions
         ).authenticationProvider(authenticationProvider()) // Custom authentication provider
         .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter

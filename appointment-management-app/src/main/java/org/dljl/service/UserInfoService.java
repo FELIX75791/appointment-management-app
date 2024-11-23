@@ -30,9 +30,27 @@ public class UserInfoService implements UserDetailsService {
   }
 
   public String addUser(UserInfo userInfo) {
-    // Encode password before saving the user
+    // Generate a fallback ID if not provided
+    if (userInfo.getId() == null) {
+      userInfo.setId(generateNewId());
+    }
+
+    // Check for duplicate ID
+    if (repository.existsById(userInfo.getId())) {
+      throw new IllegalArgumentException("User with the provided ID already exists.");
+    }
+
+    // Encode password before saving
     userInfo.setPassword(encoder.encode(userInfo.getPassword()));
+
+    // Save user to the repository
     repository.save(userInfo);
     return "User Added Successfully";
+  }
+
+  private Long generateNewId() {
+    long timestamp = System.currentTimeMillis(); // Current time in milliseconds
+    long randomPart = (long) (Math.random() * 1_000_000); // Random number between 0 and 999999
+    return timestamp * 1_000_000 + randomPart; // Combine timestamp and random number
   }
 }
