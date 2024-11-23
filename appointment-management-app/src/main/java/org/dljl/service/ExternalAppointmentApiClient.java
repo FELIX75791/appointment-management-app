@@ -53,6 +53,15 @@ public class ExternalAppointmentApiClient {
         }).block();
   }
 
+  public List<Map<String, Object>> getProviderAppointmentsByDate(Long providerId, LocalDate date) {
+    String formattedDate = date.format(DateTimeFormatter.ISO_DATE);
+    return webClient.get().uri(
+                    uriBuilder -> uriBuilder.path("/appointments/provider/{providerId}/date/{date}")
+                            .build(providerId, formattedDate)) // Pass the formatted date
+            .retrieve().bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {
+            }).block();
+  }
+
   public List<Map<String, Object>> getAppointmentHistory(Long providerId, Long userId) {
     return webClient.get().uri(uriBuilder -> uriBuilder.path("/appointments/history")
             .queryParam("provider_id", providerId) // Match backend parameter name
