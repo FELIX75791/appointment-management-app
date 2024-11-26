@@ -32,7 +32,7 @@ public class UserController {
 
   @GetMapping("/welcome")
   public String welcome() {
-    return "Welcome this endpoint is not secure";
+    return "Welcome to Your Appointments Manager!";
   }
 
   @PostMapping("/addNewUser")
@@ -43,18 +43,6 @@ public class UserController {
     } catch (IllegalArgumentException ex) {
       return ResponseEntity.badRequest().body("Error: " + ex.getMessage());
     }
-  }
-
-  @GetMapping("/user/userProfile")
-  @PreAuthorize("hasAuthority('ROLE_USER')")
-  public String userProfile() {
-    return "Welcome to User Profile";
-  }
-
-  @GetMapping("/admin/adminProfile")
-  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-  public String adminProfile() {
-    return "Welcome to Admin Profile";
   }
 
   @PostMapping("/generateToken")
