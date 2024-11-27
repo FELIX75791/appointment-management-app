@@ -18,27 +18,53 @@ const ViewAppointmentsByProvider = () => {
         try {
             const response = await api.get(`/appointments/provider/${providerName}`);
             setAppointments(response.data);
-
-            if(appointments.length === 0) {
+            if(response.data.length === 0) {
                 setError("No appointments found for this doctor.");
                 return false;
             }
         } catch (err) {
-            if (err.response && err.response.status === 403) {
-                setError("You do not have permission to view appointments for this doctor.");
+            if (err.response) {
+                const status = err.response.status;
+                const message = err.response.data;
+                console.error(status);
+                console.error("here");
+
+                switch (status) {
+                    case 400:
+                        setError("Bad request: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    case 403:
+                        setError("You do not have permission to perform this action.");
+                        break;
+                    case 404:
+                        setError("Not found: Please input a correct doctor name.");
+                        break;
+                    case 500:
+                        setError("Server error: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    default:
+                        setError("An unexpected error occurred: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                }
             } else {
-                setError("Failed to fetch appointments. Please try again.");
+                setError("Failed to fetch appointments. Please check your network and try again.");
             }
         }
     };
 
     return (
         <div>
-            <h2>View Appointments by Provider Name</h2>
+            <h2>View Appointments by Doctor Name</h2>
 
             <div>
                 <label>
-                    Provider Name:
+                    Doctor Name:
                     <input
                         type="text"
                         value={providerName}

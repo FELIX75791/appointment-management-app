@@ -28,12 +28,39 @@ const ViewAppointmentByProviderAndDate = () => {
                 setError("No appointments found for the given provider and date.");
             }
         } catch (err) {
-            if (err.response && err.response.status === 403) {
-                setError("You do not have permission to view provider appointments by date.");
-            } else if (err.response && err.response.status === 404) {
-                setError("Provider or appointments not found.");
+            if (err.response) {
+                const status = err.response.status;
+                const message = err.response.data;
+                console.error(status);
+                console.error("here");
+
+                switch (status) {
+                    case 400:
+                        setError("Bad request: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    case 403:
+                        setError("You do not have permission to perform this action.");
+                        break;
+                    case 404:
+                        setError("Not found: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    case 500:
+                        setError("Server error: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    default:
+                        setError("An unexpected error occurred: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                }
             } else {
-                setError("Failed to fetch provider appointments by date. Please try again.");
+                setError("Failed to fetch appointments. Please check your network and try again.");
             }
         }
     };
@@ -46,7 +73,7 @@ const ViewAppointmentByProviderAndDate = () => {
 
     return (
         <div>
-            <h2>View Provider Appointments By Date</h2>
+            <h2>View Appointments By Doctor Name and Date</h2>
 
             <div>
                 <label>
@@ -82,8 +109,8 @@ const ViewAppointmentByProviderAndDate = () => {
                     {appointments.map((appointment, index) => (
                         <div key={index} style={{ marginBottom: "20px", padding: "10px", border: "1px solid #ccc", borderRadius: "5px" }}>
                             <p><strong>Appointment ID:</strong> {appointment.appointmentId}</p>
-                            <p><strong>Provider ID:</strong> {appointment.providerId}</p>
-                            <p><strong>User ID:</strong> {appointment.userId}</p>
+                            <p><strong>Doctor ID:</strong> {appointment.providerId}</p>
+                            <p><strong>Patient ID:</strong> {appointment.userId}</p>
                             <p><strong>Start Time:</strong> {formatDateTime(appointment.startDateTime)}</p>
                             <p><strong>End Time:</strong> {formatDateTime(appointment.endDateTime)}</p>
                             <p><strong>Status:</strong> {appointment.status || "N/A"}</p>

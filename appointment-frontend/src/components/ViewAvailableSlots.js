@@ -12,15 +12,56 @@ const ViewAvailableSlots = () => {
         setSlots([]); // Clear previous results
 
         try {
+            if (providerName === "")
+            {
+                setError("Please enter a provider's name.");
+                return false;
+            }
+
+            if (date === "")
+            {
+                setError("Please enter a date.");
+                return false;
+            }
+
             const response = await api.get(
                 `/appointments/provider/${providerName}/available/date/${date}`
             );
             setSlots(response.data); // Set the response data (array of arrays) to slots
         } catch (err) {
-            if (err.response && err.response.status === 403) {
-                setError("You do not have permission to view available slots.");
+            if (err.response) {
+                const status = err.response.status;
+                const message = err.response.data;
+                console.error(status);
+                console.error("here");
+
+                switch (status) {
+                    case 400:
+                        setError("Bad request: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    case 403:
+                        setError("You do not have permission to perform this action.");
+                        break;
+                    case 404:
+                        setError("Not found: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    case 500:
+                        setError("Server error: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    default:
+                        setError("An unexpected error occurred: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                }
             } else {
-                setError("Failed to fetch available slots. Please try again.");
+                setError("Failed to fetch available slots. Please check your network and try again.");
             }
         }
     };

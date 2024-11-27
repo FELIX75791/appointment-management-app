@@ -30,10 +30,37 @@ const ViewAppointmentHistory = () => {
             }
 
         } catch (err) {
-            if (err.response && err.response.status === 403) {
-                setError("Doctor or Patient not found.");
+            if (err.response) {
+                const status = err.response.status;
+                const message = err.response.data;
+                console.error(status);
+                console.error("here");
+
+                switch (status) {
+                    case 400:
+                        setError("Bad request: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    case 403:
+                        setError("You do not have permission to perform this action.");
+                        break;
+                    case 404:
+                        setError("Not found: Please input a correct doctor name.");
+                        break;
+                    case 500:
+                        setError("Server error: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    default:
+                        setError("An unexpected error occurred: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                }
             } else {
-                setError("Failed to fetch appointment history. Please try again.");
+                setError("Failed to fetch appointment history. Please check your network and try again.");
             }
         }
     };
@@ -50,7 +77,7 @@ const ViewAppointmentHistory = () => {
 
             <div>
                 <label>
-                    Provider Name:
+                    Doctor Name:
                     <input
                         type="text"
                         value={providerName}
@@ -62,7 +89,7 @@ const ViewAppointmentHistory = () => {
 
             <div>
                 <label>
-                    User Name:
+                    Patient Name:
                     <input
                         type="text"
                         value={userName}

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import org.dljl.entity.*;
 import org.dljl.service.AppointmentService;
+import org.dljl.service.ExternalApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,42 @@ public class AppointmentController {
   // Create Appointment (Admin Only)
   @PostMapping("/createAppointment")
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-  public ResponseEntity<Appointment> createAppointment(
+  public ResponseEntity<?> createAppointment(
       @RequestBody CreateAppointmentInputDto inputDto) {
-    return new ResponseEntity<>(appointmentService.createAppointment(inputDto), HttpStatus.CREATED);
+    try {
+      return new ResponseEntity<>(appointmentService.createAppointment(inputDto), HttpStatus.CREATED);
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
+  }
+
+  // Update Appointment (Admin Only)
+  @PutMapping("/update")
+  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+  public ResponseEntity<?> updateAppointment(
+          @RequestBody UpdateAppointmentInputDto inputDto) {
+    try {
+      return new ResponseEntity<>(appointmentService.updateAppointment(inputDto), HttpStatus.ACCEPTED);
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 
   // Create Block (Admin Only)
   @PostMapping("/createBlock")
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   public ResponseEntity<String> createBlock(@RequestBody CreateBlockInputDto inputDto) {
-    return new ResponseEntity<>(appointmentService.createBlock(inputDto), HttpStatus.CREATED);
+    try {
+      return new ResponseEntity<>(appointmentService.createBlock(inputDto), HttpStatus.CREATED);
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 
   // Create Recurring Block In One Year (Admin Only)
@@ -47,64 +74,104 @@ public class AppointmentController {
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   public ResponseEntity<String> createRecurringBlock(
       @RequestBody CreateRecurringBlockInputDto inputDto) {
-    return new ResponseEntity<>(
-        appointmentService.createRecurringBlock(inputDto), HttpStatus.CREATED);
+    try {
+      return new ResponseEntity<>(
+            appointmentService.createRecurringBlock(inputDto), HttpStatus.CREATED);
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 
   // Get Available Slots (User Only)
   @GetMapping("/provider/{providerName}/available/date/{date}")
-  public ResponseEntity<List<List<LocalTime>>> getAvailableSlots(
+  public ResponseEntity<?> getAvailableSlots(
       @PathVariable String providerName, @PathVariable LocalDate date) {
-    return ResponseEntity.ok(appointmentService.getAvailableSlots(providerName, date));
+    try {
+      return ResponseEntity.ok(appointmentService.getAvailableSlots(providerName, date));
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 
   // Get Provider Appointments by Date (User and Admin)
   @GetMapping("/provider/{providerName}/date/{date}")
-  public ResponseEntity<List<Map<String, Object>>> getProviderAppointmentsByDate(
+  public ResponseEntity<?> getProviderAppointmentsByDate(
       @PathVariable String providerName, @PathVariable LocalDate date) {
-    return ResponseEntity.ok(appointmentService.getProviderAppointmentsByDate(providerName, date));
+    try {
+      return ResponseEntity.ok(appointmentService.getProviderAppointmentsByDate(providerName, date));
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 
   // Get Appointment History (User Only)
   @GetMapping("/history")
-  public ResponseEntity<List<Map<String, Object>>> getAppointmentHistory(
+  public ResponseEntity<?> getAppointmentHistory(
       @RequestParam String providerName, // Accept providerName
       @RequestParam String userName) {
-    return ResponseEntity.ok(appointmentService.getAppointmentHistory(providerName, userName));
-  }
-
-  // Update Appointment (Admin Only)
-  @PutMapping("/update")
-  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-  public ResponseEntity<Appointment> updateAppointment(
-      @RequestBody UpdateAppointmentInputDto inputDto) {
-    return ResponseEntity.ok(appointmentService.updateAppointment(inputDto));
+    try {
+      return ResponseEntity.ok(appointmentService.getAppointmentHistory(providerName, userName));
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 
   // Cancel Appointment (Admin Only)
   @PutMapping("/cancel/{id}")
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   public ResponseEntity<String> cancelAppointment(@PathVariable Long id) {
-    return ResponseEntity.ok(appointmentService.cancelAppointment(id));
+    try {
+      return ResponseEntity.ok(appointmentService.cancelAppointment(id));
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 
   // Get Appointment by ID (User and Admin)
   @GetMapping("/{id}")
-  public ResponseEntity<Appointment> getAppointmentById(@PathVariable Long id) {
-    return ResponseEntity.ok(appointmentService.getAppointmentById(id));
+  public ResponseEntity<?> getAppointmentById(@PathVariable Long id) {
+    try {
+      return ResponseEntity.ok(appointmentService.getAppointmentById(id));
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 
   // Get Provider's Appointments (User and Admin)
   @GetMapping("/provider/{providerName}")
-  public ResponseEntity<List<Appointment>> getProviderAppointments(
+  public ResponseEntity<?> getProviderAppointments(
       @PathVariable String providerName) {
-    return ResponseEntity.ok(appointmentService.getProviderAppointments(providerName));
+    try {
+      return ResponseEntity.ok(appointmentService.getProviderAppointments(providerName));
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 
   // Delete Block (Admin Only)
   @DeleteMapping("/deleteBlock/{id}")
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   public ResponseEntity<String> deleteBlock(@PathVariable Long id) {
-    return ResponseEntity.ok(appointmentService.deleteBlock(id));
+    try {
+      return ResponseEntity.ok(appointmentService.deleteBlock(id));
+    } catch (ExternalApiException ex) {
+      return ResponseEntity.status(ex.getStatus()).body("Error: " + ex.getMessage());
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: " + ex.getMessage());
+    }
   }
 }
