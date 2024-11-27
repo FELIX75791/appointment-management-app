@@ -13,5 +13,4 @@ public class CreateRecurringBlockInOneYearDto {
   private Long providerId;
   private LocalTime startTime;
   private LocalTime endTime;
-
 }

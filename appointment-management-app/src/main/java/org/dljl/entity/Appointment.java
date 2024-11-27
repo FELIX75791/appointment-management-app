@@ -19,4 +19,3 @@ public class Appointment {
   private String serviceType;
   private String comments;
 }
-

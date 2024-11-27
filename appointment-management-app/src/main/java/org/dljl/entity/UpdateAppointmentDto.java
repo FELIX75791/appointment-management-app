@@ -17,5 +17,4 @@ public class UpdateAppointmentDto {
   private String status; // Optional
   private String serviceType; // Optional
   private String comments; // Optional
-
 }

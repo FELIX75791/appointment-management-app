@@ -13,9 +13,11 @@ public class WebConfig {
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // Allow CORS for all endpoints
+        registry
+            .addMapping("/**") // Allow CORS for all endpoints
             .allowedOrigins("http://localhost:3000") // Allow requests from frontend
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow specific HTTP methods
+            .allowedMethods(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow specific HTTP methods
             .allowedHeaders("*") // Allow all headers
             .allowCredentials(true); // Allow credentials like cookies or headers
       }

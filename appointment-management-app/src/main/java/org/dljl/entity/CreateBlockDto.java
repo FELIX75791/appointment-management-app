@@ -13,5 +13,4 @@ public class CreateBlockDto {
   private Long providerId;
   private LocalDateTime startDateTime;
   private LocalDateTime endDateTime;
-
 }

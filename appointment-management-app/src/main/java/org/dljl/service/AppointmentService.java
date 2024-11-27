@@ -1,12 +1,10 @@
 package org.dljl.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import org.dljl.entity.*;
 import org.dljl.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,27 +13,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class AppointmentService {
 
-  @Autowired
-  private UserInfoRepository userInfoRepository;
+  @Autowired private UserInfoRepository userInfoRepository;
 
-  @Autowired
-  private ExternalAppointmentApiClient apiClient;
+  @Autowired private ExternalAppointmentApiClient apiClient;
 
   // Create Appointment
   public Appointment createAppointment(CreateAppointmentInputDto inputDto) {
     String providerName = inputDto.getProviderName();
     String userName = inputDto.getUserName();
 
-    Long providerId = userInfoRepository.findByName(providerName)
+    Long providerId =
+        userInfoRepository
+            .findByName(providerName)
             .orElseThrow(() -> new RuntimeException("Provider not found"))
             .getId();
 
-    if (!Objects.equals(userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN"))
-    {
-        throw new RuntimeException("Please enter a provider name");
+    if (!Objects.equals(
+        userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN")) {
+      throw new RuntimeException("Please enter a provider name");
     }
 
-    Long userId = userInfoRepository.findByName(userName)
+    Long userId =
+        userInfoRepository
+            .findByName(userName)
             .orElseThrow(() -> new RuntimeException("User not found"))
             .getId();
 
@@ -54,12 +54,14 @@ public class AppointmentService {
   public String createBlock(CreateBlockInputDto inputDto) {
     String providerName = inputDto.getProviderName();
 
-    Long providerId = userInfoRepository.findByName(providerName)
+    Long providerId =
+        userInfoRepository
+            .findByName(providerName)
             .orElseThrow(() -> new RuntimeException("Provider not found"))
             .getId();
 
-    if (!Objects.equals(userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN"))
-    {
+    if (!Objects.equals(
+        userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN")) {
       throw new RuntimeException("Please enter a provider name");
     }
 
@@ -74,12 +76,14 @@ public class AppointmentService {
   public String createRecurringBlockInOneYear(CreateRecurringBlockInOneYearInputDto inputDto) {
     String providerName = inputDto.getProviderName();
 
-    Long providerId = userInfoRepository.findByName(providerName)
+    Long providerId =
+        userInfoRepository
+            .findByName(providerName)
             .orElseThrow(() -> new RuntimeException("Provider not found"))
             .getId();
 
-    if (!Objects.equals(userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN"))
-    {
+    if (!Objects.equals(
+        userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN")) {
       throw new RuntimeException("Please enter a provider name");
     }
 
@@ -94,12 +98,14 @@ public class AppointmentService {
   public String createRecurringBlock(CreateRecurringBlockInputDto inputDto) {
     String providerName = inputDto.getProviderName();
 
-    Long providerId = userInfoRepository.findByName(providerName)
+    Long providerId =
+        userInfoRepository
+            .findByName(providerName)
             .orElseThrow(() -> new RuntimeException("Provider not found"))
             .getId();
 
-    if (!Objects.equals(userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN"))
-    {
+    if (!Objects.equals(
+        userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN")) {
       throw new RuntimeException("Please enter a provider name");
     }
 
@@ -115,12 +121,14 @@ public class AppointmentService {
   // Get Available Slots
   public List<List<LocalTime>> getAvailableSlots(String providerName, LocalDate date) {
     // Resolve providerName to providerId from the user database
-    Long providerId = userInfoRepository.findByName(providerName)
-        .orElseThrow(() -> new RuntimeException("Provider not found"))
-        .getId();
+    Long providerId =
+        userInfoRepository
+            .findByName(providerName)
+            .orElseThrow(() -> new RuntimeException("Provider not found"))
+            .getId();
 
-    if (!Objects.equals(userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN"))
-    {
+    if (!Objects.equals(
+        userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN")) {
       throw new RuntimeException("Please enter a provider name");
     }
 
@@ -128,16 +136,18 @@ public class AppointmentService {
     return apiClient.getAvailableSlots(providerId, date);
   }
 
-
   // Get a Provider's Appointments By Date
-  public List<Map<String, Object>> getProviderAppointmentsByDate(String providerName, LocalDate date) {
+  public List<Map<String, Object>> getProviderAppointmentsByDate(
+      String providerName, LocalDate date) {
     // Resolve providerName to providerId from the user database
-    Long providerId = userInfoRepository.findByName(providerName)
+    Long providerId =
+        userInfoRepository
+            .findByName(providerName)
             .orElseThrow(() -> new RuntimeException("Provider not found"))
             .getId();
 
-    if (!Objects.equals(userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN"))
-    {
+    if (!Objects.equals(
+        userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN")) {
       throw new RuntimeException("Please enter a provider name");
     }
 
@@ -145,20 +155,23 @@ public class AppointmentService {
     return apiClient.getProviderAppointmentsByDate(providerId, date);
   }
 
-
   // Get Appointment History
   public List<Map<String, Object>> getAppointmentHistory(String providerName, String userName) {
     // Resolve providerName to providerId from the user database
-    Long providerId = userInfoRepository.findByName(providerName)
+    Long providerId =
+        userInfoRepository
+            .findByName(providerName)
             .orElseThrow(() -> new RuntimeException("Provider not found"))
             .getId();
 
-    if (!Objects.equals(userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN"))
-    {
+    if (!Objects.equals(
+        userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN")) {
       throw new RuntimeException("Please enter a provider name");
     }
 
-    Long userId = userInfoRepository.findByName(userName)
+    Long userId =
+        userInfoRepository
+            .findByName(userName)
             .orElseThrow(() -> new RuntimeException("User not found"))
             .getId();
 
@@ -169,7 +182,9 @@ public class AppointmentService {
   public Appointment updateAppointment(UpdateAppointmentInputDto inputDto) {
     String userName = inputDto.getUserName();
 
-    Long userId = userInfoRepository.findByName(userName)
+    Long userId =
+        userInfoRepository
+            .findByName(userName)
             .orElseThrow(() -> new RuntimeException("User not found"))
             .getId();
 
@@ -192,12 +207,14 @@ public class AppointmentService {
   }
 
   public List<Appointment> getProviderAppointments(String providerName) {
-    Long providerId = userInfoRepository.findByName(providerName)
+    Long providerId =
+        userInfoRepository
+            .findByName(providerName)
             .orElseThrow(() -> new RuntimeException("Provider not found"))
             .getId();
 
-    if (!Objects.equals(userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN"))
-    {
+    if (!Objects.equals(
+        userInfoRepository.findByName(providerName).get().getRoles(), "ROLE_ADMIN")) {
       throw new RuntimeException("Please enter a provider name");
     }
 
