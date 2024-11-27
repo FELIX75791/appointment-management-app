@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
-
 import org.dljl.entity.*;
 import org.dljl.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/appointments")
 public class AppointmentController {
 
-  @Autowired
-  private AppointmentService appointmentService;
+  @Autowired private AppointmentService appointmentService;
 
   // Create Appointment (Admin Only)
   @PostMapping("/createAppointment")
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-  public ResponseEntity<Appointment> createAppointment(@RequestBody CreateAppointmentInputDto inputDto) {
+  public ResponseEntity<Appointment> createAppointment(
+      @RequestBody CreateAppointmentInputDto inputDto) {
     return new ResponseEntity<>(appointmentService.createAppointment(inputDto), HttpStatus.CREATED);
   }
 
@@ -38,31 +37,31 @@ public class AppointmentController {
   @PostMapping("/createRecurringBlockInOneYear")
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   public ResponseEntity<String> createRecurringBlockInOneYear(
-          @RequestBody CreateRecurringBlockInOneYearInputDto inputDto) {
-    return new ResponseEntity<>(appointmentService.createRecurringBlockInOneYear(inputDto), HttpStatus.CREATED);
+      @RequestBody CreateRecurringBlockInOneYearInputDto inputDto) {
+    return new ResponseEntity<>(
+        appointmentService.createRecurringBlockInOneYear(inputDto), HttpStatus.CREATED);
   }
 
   // Create Recurring Block (Admin Only)
   @PostMapping("/createRecurringBlock")
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   public ResponseEntity<String> createRecurringBlock(
-          @RequestBody CreateRecurringBlockInputDto inputDto) {
-    return new ResponseEntity<>(appointmentService.createRecurringBlock(inputDto), HttpStatus.CREATED);
+      @RequestBody CreateRecurringBlockInputDto inputDto) {
+    return new ResponseEntity<>(
+        appointmentService.createRecurringBlock(inputDto), HttpStatus.CREATED);
   }
 
   // Get Available Slots (User Only)
   @GetMapping("/provider/{providerName}/available/date/{date}")
   public ResponseEntity<List<List<LocalTime>>> getAvailableSlots(
-          @PathVariable String providerName,
-          @PathVariable LocalDate date) {
+      @PathVariable String providerName, @PathVariable LocalDate date) {
     return ResponseEntity.ok(appointmentService.getAvailableSlots(providerName, date));
   }
 
   // Get Provider Appointments by Date (User and Admin)
   @GetMapping("/provider/{providerName}/date/{date}")
   public ResponseEntity<List<Map<String, Object>>> getProviderAppointmentsByDate(
-          @PathVariable String providerName,
-          @PathVariable LocalDate date) {
+      @PathVariable String providerName, @PathVariable LocalDate date) {
     return ResponseEntity.ok(appointmentService.getProviderAppointmentsByDate(providerName, date));
   }
 
@@ -77,7 +76,8 @@ public class AppointmentController {
   // Update Appointment (Admin Only)
   @PutMapping("/update")
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-  public ResponseEntity<Appointment> updateAppointment(@RequestBody UpdateAppointmentInputDto inputDto) {
+  public ResponseEntity<Appointment> updateAppointment(
+      @RequestBody UpdateAppointmentInputDto inputDto) {
     return ResponseEntity.ok(appointmentService.updateAppointment(inputDto));
   }
 
@@ -96,7 +96,8 @@ public class AppointmentController {
 
   // Get Provider's Appointments (User and Admin)
   @GetMapping("/provider/{providerName}")
-  public ResponseEntity<List<Appointment>> getProviderAppointments(@PathVariable String providerName) {
+  public ResponseEntity<List<Appointment>> getProviderAppointments(
+      @PathVariable String providerName) {
     return ResponseEntity.ok(appointmentService.getProviderAppointments(providerName));
   }
 
@@ -107,4 +108,3 @@ public class AppointmentController {
     return ResponseEntity.ok(appointmentService.deleteBlock(id));
   }
 }
-

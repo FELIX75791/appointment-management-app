@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateAppointmentInputDto {
 
-    private String providerName;
-    private String userName;
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
-    private String status;
-    private String serviceType;
-    private String comments;
+  private String providerName;
+  private String userName;
+  private LocalDateTime startDateTime;
+  private LocalDateTime endDateTime;
+  private String status;
+  private String serviceType;
+  private String comments;
 }

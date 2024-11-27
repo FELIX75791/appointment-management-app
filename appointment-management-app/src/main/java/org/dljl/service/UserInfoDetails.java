@@ -17,10 +17,10 @@ public class UserInfoDetails implements UserDetails {
   public UserInfoDetails(UserInfo userInfo) {
     this.username = userInfo.getEmail(); // Assuming 'name' is used as 'username'
     this.password = userInfo.getPassword();
-    this.authorities = List.of(userInfo.getRoles().split(","))
-        .stream()
-        .map(SimpleGrantedAuthority::new)
-        .collect(Collectors.toList());
+    this.authorities =
+        List.of(userInfo.getRoles().split(",")).stream()
+            .map(SimpleGrantedAuthority::new)
+            .collect(Collectors.toList());
   }
 
   @Override

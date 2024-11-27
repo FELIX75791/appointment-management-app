@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateBlockInputDto {
 
-    private String providerName;
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
-
+  private String providerName;
+  private LocalDateTime startDateTime;
+  private LocalDateTime endDateTime;
 }

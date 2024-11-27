@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateRecurringBlockInOneYearInputDto {
 
-    private String providerName;
-    private LocalTime startTime;
-    private LocalTime endTime;
-
+  private String providerName;
+  private LocalTime startTime;
+  private LocalTime endTime;
 }

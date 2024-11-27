@@ -13,19 +13,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserInfoService implements UserDetailsService {
 
-  @Autowired
-  private UserInfoRepository repository;
+  @Autowired private UserInfoRepository repository;
 
-  @Autowired
-  private PasswordEncoder encoder;
+  @Autowired private PasswordEncoder encoder;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Optional<UserInfo> userDetail = repository.findByEmail(
-        username); // Assuming 'email' is used as username
+    Optional<UserInfo> userDetail =
+        repository.findByEmail(username); // Assuming 'email' is used as username
 
     // Converting UserInfo to UserDetails
-    return userDetail.map(UserInfoDetails::new)
+    return userDetail
+        .map(UserInfoDetails::new)
         .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
   }
 
