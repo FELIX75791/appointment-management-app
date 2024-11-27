@@ -27,7 +27,7 @@ const CreateRecurringBlock = () => {
     return (
         <form onSubmit={handleSubmit}>
             <h2>Create Recurring Blocks</h2>
-            <input type="text" placeholder="Provider Name"
+            <input type="text" placeholder="Doctor Name"
                    onChange={(e) => setRecurringBlock({...recurringBlock, providerName: e.target.value})}/>
             <input type="time" placeholder="Start Time"
                    onChange={(e) => setRecurringBlock({...recurringBlock, startTime: e.target.value})}/>

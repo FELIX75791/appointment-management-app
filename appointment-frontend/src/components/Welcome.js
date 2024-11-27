@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Welcome = () => {
     return (
         <div>
-            <h1>Welcome to the Appointment Management System</h1>
+            <h1>Welcome to the Patient Appointment Management System</h1>
             <Link to="/login">
                 <button>Login</button>
             </Link>

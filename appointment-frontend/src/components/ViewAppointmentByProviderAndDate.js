@@ -12,7 +12,7 @@ const ViewAppointmentByProviderAndDate = () => {
         setAppointments([]);
 
         if (!providerName || !date) {
-            setError("Please provide both provider name and date.");
+            setError("Please provide both doctor name and date.");
             return;
         }
 
@@ -55,7 +55,7 @@ const ViewAppointmentByProviderAndDate = () => {
                         type="text"
                         value={providerName}
                         onChange={(e) => setProviderName(e.target.value)}
-                        placeholder="Enter Provider Name"
+                        placeholder="Enter Doctor Name"
                     />
                 </label>
             </div>

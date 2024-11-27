@@ -25,7 +25,7 @@ const CreateBlock = () => {
     return (
         <form onSubmit={handleSubmit}>
             <h2>Create Block</h2>
-            <input type="text" placeholder="Provider Name" onChange={(e) => setBlock({ ...block, providerName: e.target.value })} />
+            <input type="text" placeholder="Doctor Name" onChange={(e) => setBlock({ ...block, providerName: e.target.value })} />
             <input type="datetime-local" placeholder="Start Time" onChange={(e) => setBlock({ ...block, startDateTime: e.target.value })} />
             <input type="datetime-local" placeholder="End Time" onChange={(e) => setBlock({ ...block, endDateTime: e.target.value })} />
             <button type="submit">Submit</button>

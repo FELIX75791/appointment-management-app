@@ -38,7 +38,7 @@ const UpdateAppointment = () => {
         <form onSubmit={handleSubmit}>
             <h2>Update Appointment</h2>
             <input type="number" name="appointmentId" placeholder="Appointment ID" value={appointment.appointmentId} onChange={handleChange} min="1" required/>
-            <input type="text" placeholder="User Name" onChange={(e) => setAppointment({...appointment, userName: e.target.value})}/>
+            <input type="text" placeholder="Patient Name" onChange={(e) => setAppointment({...appointment, userName: e.target.value})}/>
             <input type="datetime-local" placeholder="Start Time" onChange={(e) => setAppointment({...appointment, startDateTime: e.target.value})}/>
             <input type="datetime-local" placeholder="End Time" onChange={(e) => setAppointment({...appointment, endDateTime: e.target.value})}/>
             <input type="text" placeholder="Status" onChange={(e) => setAppointment({...appointment, status: e.target.value})}/>

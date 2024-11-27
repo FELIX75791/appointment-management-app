@@ -13,11 +13,10 @@ const Dashboard = () => {
 
     const generalUserFunctions = [
         { path: "/view-appointment-by-id", label: "View Appointment By ID" },
-        { path: "/view-appointment-by-provider-name", label: "View Appointment By Provider Name" },
-        { path: "/view-appointment-by-provider-date", label: "View Appointment By Provider and Date" },
+        { path: "/view-appointment-by-provider-name", label: "View Appointment By Doctor Name" },
+        { path: "/view-appointment-by-provider-date", label: "View Appointment By Doctor Name and Date" },
         { path: "/view-appointment-history", label: "View Appointment History" },
-
-        { path: "/view-available-slots", label: "View Available Slots" },
+        { path: "/view-available-slots", label: "View Available Appointment Slots" },
 
     ];
 
@@ -26,7 +25,7 @@ const Dashboard = () => {
             <h1>Dashboard</h1>
 
             <div>
-                <h2>Provider's Functions</h2>
+                <h2>Doctor's Functions</h2>
                 {providerFunctions.map((func) => (
                     <Link key={func.path} to={func.path}>
                         <button>{func.label}</button>
@@ -35,7 +34,7 @@ const Dashboard = () => {
             </div>
 
             <div>
-                <h2>General User's Functions</h2>
+                <h2>Patient's Functions</h2>
                 {generalUserFunctions.map((func) => (
                     <Link key={func.path} to={func.path}>
                         <button>{func.label}</button>

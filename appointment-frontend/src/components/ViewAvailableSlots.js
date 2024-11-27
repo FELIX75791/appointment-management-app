@@ -43,7 +43,7 @@ const ViewAvailableSlots = () => {
                         type="text"
                         value={providerName}
                         onChange={(e) => setProviderName(e.target.value)}
-                        placeholder="Enter Provider Name"
+                        placeholder="Enter Doctor Name"
                     />
                 </label>
             </div>
