@@ -4,16 +4,21 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
     const providerFunctions = [
         { path: "/create-appointment", label: "Create Appointment" },
-        { path: "/create-block", label: "Create Block" },
-        { path: "/create-recurring-block", label: "Create Recurring Block" },
         { path: "/update-appointment", label: "Update Appointment" },
         { path: "/cancel-appointment", label: "Cancel Appointment" },
+        { path: "/create-block", label: "Create Block" },
+        { path: "/create-recurring-block", label: "Create Recurring Block" },
+        { path: "/delete-block", label: "Delete Block" },
     ];
 
     const generalUserFunctions = [
-        { path: "/view-appointments", label: "View Appointments" },
-        { path: "/view-history", label: "View Appointment History" },
+        { path: "/view-appointment-by-id", label: "View Appointment By ID" },
+        { path: "/view-appointment-by-provider-name", label: "View Appointment By Provider Name" },
+        { path: "/view-appointment-by-provider-date", label: "View Appointment By Provider and Date" },
+        { path: "/view-appointment-history", label: "View Appointment History" },
+
         { path: "/view-available-slots", label: "View Available Slots" },
+
     ];
 
     return (

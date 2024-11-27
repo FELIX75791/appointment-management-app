@@ -190,6 +190,7 @@ public class AppointmentService {
 
     UpdateAppointmentDto dto = new UpdateAppointmentDto();
     dto.setUserId(userId);
+    dto.setAppointmentId(inputDto.getAppointmentId());
     dto.setStartDateTime(inputDto.getStartDateTime());
     dto.setEndDateTime(inputDto.getEndDateTime());
     dto.setStatus(inputDto.getStatus());
