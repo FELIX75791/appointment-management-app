@@ -19,10 +19,37 @@ const ViewAppointmentById = () => {
             const response = await api.get(`/appointments/${appointmentId}`);
             setAppointment(response.data);
         } catch (err) {
-            if (err.response && err.response.status === 403) {
-                setError("Appointment not found.");
+            if (err.response) {
+                const status = err.response.status;
+                const message = err.response.data;
+                console.error(status);
+                console.error("here");
+
+                switch (status) {
+                    case 400:
+                        setError("Bad request: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    case 403:
+                        setError("You do not have permission to perform this action.");
+                        break;
+                    case 404:
+                        setError("Not found: Please input a correct appointment ID.");
+                        break;
+                    case 500:
+                        setError("Server error: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                    default:
+                        setError("An unexpected error occurred: " + message
+                            .replace(/provider/gi, "doctor")
+                            .replace(/user/gi, "patient"));
+                        break;
+                }
             } else {
-                setError("Failed to fetch appointment. Please try again.");
+                setError("Failed to fetch appointment. Please check your network and try again.");
             }
         }
     };
@@ -51,8 +78,8 @@ const ViewAppointmentById = () => {
                 <div style={{ border: "1px solid #ccc", padding: "10px", marginTop: "20px" }}>
                     <h3>Appointment Details</h3>
                     <p><strong>Appointment ID:</strong> {appointment.appointmentId}</p>
-                    <p><strong>Provider ID:</strong> {appointment.providerId}</p>
-                    <p><strong>User ID:</strong> {appointment.userId}</p>
+                    <p><strong>Doctor ID:</strong> {appointment.providerId}</p>
+                    <p><strong>Patient ID:</strong> {appointment.userId}</p>
                     <p><strong>Start Date and Time:</strong> {appointment.startDateTime}</p>
                     <p><strong>End Date and Time:</strong> {appointment.endDateTime}</p>
                     <p><strong>Status:</strong> {appointment.status || "N/A"}</p>

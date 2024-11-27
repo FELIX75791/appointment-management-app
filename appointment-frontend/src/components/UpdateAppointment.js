@@ -18,10 +18,37 @@ const UpdateAppointment = () => {
             await api.put("/appointments/update", appointment);
             alert("Appointment updated successfully!");
         } catch (error) {
-            if (error.response && error.response.status === 403) {
-                alert("You do not have permission to perform this action.");
+            if (error.response) {
+                const status = error.response.status;
+                const message = error.response.data;
+
+                switch (status) {
+                    case 400:
+                        alert("Bad request: " + message
+                                                    .replace(/provider/gi, "doctor")
+                                                    .replace(/user/gi, "patient"));
+                        break;
+                    case 403:
+                        alert("You do not have permission to perform this action.");
+                        break;
+                    case 404:
+                        alert("Not found: " + message
+                                                    .replace(/provider/gi, "doctor")
+                                                    .replace(/user/gi, "patient"));
+                        break;
+                    case 500:
+                        alert("Server error: " + message
+                                                    .replace(/provider/gi, "doctor")
+                                                    .replace(/user/gi, "patient"));
+                        break;
+                    default:
+                        alert("An unexpected error occurred: " + message
+                                                                    .replace(/provider/gi, "doctor")
+                                                                    .replace(/user/gi, "patient"));
+                        break;
+                }
             } else {
-                alert("Failed to create appointment.");
+                alert("Failed to update appointment. Please check your network and try again.");
             }
         }
     };
