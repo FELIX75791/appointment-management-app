@@ -49,21 +49,21 @@ const Register = () => {
                 <label>
                     <input
                         type="radio"
-                        value="General User"
+                        value="I'm a Patient"
                         name="role"
                         defaultChecked
                         onChange={handleRoleChange}
                     />
-                    General User
+                    I'm a Patient
                 </label>
                 <label>
                     <input
                         type="radio"
-                        value="Provider"
+                        value="I'm a Doctor"
                         name="role"
                         onChange={handleRoleChange}
                     />
-                    Provider
+                    I'm a Doctor
                 </label>
             </div>
             <button type="submit">Register</button>

@@ -12,7 +12,7 @@ const ViewAppointmentHistory = () => {
         setAppointments([]);
 
         if (!providerName || !userName) {
-            setError("Please provide both provider name and user name.");
+            setError("Please provide both doctor name and patient name.");
             return;
         }
 
@@ -31,7 +31,7 @@ const ViewAppointmentHistory = () => {
 
         } catch (err) {
             if (err.response && err.response.status === 403) {
-                setError("Provider or User not found.");
+                setError("Doctor or Patient not found.");
             } else {
                 setError("Failed to fetch appointment history. Please try again.");
             }
@@ -55,7 +55,7 @@ const ViewAppointmentHistory = () => {
                         type="text"
                         value={providerName}
                         onChange={(e) => setProviderName(e.target.value)}
-                        placeholder="Enter Provider Name"
+                        placeholder="Enter Doctor Name"
                     />
                 </label>
             </div>
@@ -67,7 +67,7 @@ const ViewAppointmentHistory = () => {
                         type="text"
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
-                        placeholder="Enter User Name"
+                        placeholder="Enter Patient Name"
                     />
                 </label>
             </div>
@@ -78,7 +78,7 @@ const ViewAppointmentHistory = () => {
 
             {appointments.length > 0 && (
                 <div>
-                    <h3>Appointment History between User "{userName}" and Provider "{providerName}":</h3>
+                    <h3>Appointment History between Patient "{userName}" and Doctor "{providerName}":</h3>
                     {appointments.map((appointment, index) => (
                         <div key={index} style={{border: "1px solid #ccc", padding: "10px", margin: "10px 0"}}>
                             <p><strong>Appointment ID:</strong> {appointment["Appointment ID"] || "N/A"}</p>

@@ -11,7 +11,7 @@ const ViewAppointmentsByProvider = () => {
         setAppointments([]); // Clear previous results
 
         if (!providerName.trim()) {
-            setError("Provider name cannot be empty.");
+            setError("Doctor name cannot be empty.");
             return;
         }
 
@@ -20,12 +20,12 @@ const ViewAppointmentsByProvider = () => {
             setAppointments(response.data);
 
             if(appointments.length === 0) {
-                setError("No appointments found for this provider.");
+                setError("No appointments found for this doctor.");
                 return false;
             }
         } catch (err) {
             if (err.response && err.response.status === 403) {
-                setError("You do not have permission to view appointments for this provider.");
+                setError("You do not have permission to view appointments for this doctor.");
             } else {
                 setError("Failed to fetch appointments. Please try again.");
             }
@@ -43,7 +43,7 @@ const ViewAppointmentsByProvider = () => {
                         type="text"
                         value={providerName}
                         onChange={(e) => setProviderName(e.target.value)}
-                        placeholder="Enter Provider Name"
+                        placeholder="Enter Doctor Name"
                     />
                 </label>
             </div>
@@ -65,8 +65,8 @@ const ViewAppointmentsByProvider = () => {
                             }}
                         >
                             <p><strong>Appointment ID:</strong> {appointment.appointmentId}</p>
-                            <p><strong>Provider ID:</strong> {appointment.providerId}</p>
-                            <p><strong>User ID:</strong> {appointment.userId}</p>
+                            <p><strong>Doctor ID:</strong> {appointment.providerId}</p>
+                            <p><strong>Patient ID:</strong> {appointment.userId}</p>
                             <p><strong>Start Date and Time:</strong> {appointment.startDateTime}</p>
                             <p><strong>End Date and Time:</strong> {appointment.endDateTime}</p>
                             <p><strong>Status:</strong> {appointment.status || "N/A"}</p>
