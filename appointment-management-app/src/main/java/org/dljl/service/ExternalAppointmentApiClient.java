@@ -18,7 +18,7 @@ public class ExternalAppointmentApiClient {
   private final WebClient webClient;
 
   public ExternalAppointmentApiClient(WebClient.Builder webClientBuilder) {
-    this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
+    this.webClient = webClientBuilder.baseUrl("https://coms4156-436119.ue.r.appspot.com/").build();
   }
 
   // Create Appointment
