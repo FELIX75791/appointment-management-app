@@ -13,7 +13,7 @@ const Register = () => {
         const selectedRole = e.target.value;
         setUserInfo({
             ...userInfo,
-            roles: selectedRole === "Provider" ? "ROLE_ADMIN" : "ROLE_USER",
+            roles: selectedRole === "I'm a Doctor" ? "ROLE_ADMIN" : "ROLE_USER",
         });
     };
 

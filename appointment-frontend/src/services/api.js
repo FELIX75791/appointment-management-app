@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:8081", // Update to your backend's URL and port
+    baseURL: "https://coms-4156-app.uc.r.appspot.com", // Update to your backend's URL and port
 });
 
 // Add Authorization header only for endpoints that require it
