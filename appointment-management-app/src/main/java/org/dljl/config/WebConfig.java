@@ -14,12 +14,16 @@ public class WebConfig {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
         registry
-            .addMapping("/**") // Allow CORS for all endpoints
-            .allowedOrigins("http://localhost:3000") // Allow requests from frontend
-            .allowedMethods(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow specific HTTP methods
-            .allowedHeaders("*") // Allow all headers
-            .allowCredentials(true); // Allow credentials like cookies or headers
+                .addMapping("/**") // Allow CORS for all endpoints
+                .allowedOrigins(
+                        "http://localhost:3000", // Local development
+                        "https://appt-mgmt-frontend.firebaseapp.com", // Firebase Hosting
+                        "https://appt-mgmt-frontend.web.app",
+                        "https://private-service-455124587991.us-central1.run.app" // Additional domain if needed
+                )
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow specific HTTP methods
+                .allowedHeaders("*") // Allow all headers
+                .allowCredentials(true); // Allow credentials like cookies or headers
       }
     };
   }
