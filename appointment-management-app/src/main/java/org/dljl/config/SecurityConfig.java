@@ -62,7 +62,12 @@ public class SecurityConfig {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+    configuration.setAllowedOrigins(List.of(
+            "http://localhost:3000",
+            "https://appt-mgmt-frontend.firebaseapp.com",
+            "https://appt-mgmt-frontend.web.app",
+            "https://private-service-455124587991.us-central1.run.app"
+    ));
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(List.of("*"));
     configuration.setAllowCredentials(true);
